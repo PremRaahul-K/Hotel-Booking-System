@@ -3,6 +3,7 @@ using HotelDetails.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelDetails.Migrations
 {
     [DbContext(typeof(HotelsContext))]
-    partial class HotelsContextModelSnapshot : ModelSnapshot
+    [Migration("20230526091327_First Migration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,27 +22,6 @@ namespace HotelDetails.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("HotelDetails.Models.Amenity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AmenityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("Amenities");
-                });
 
             modelBuilder.Entity("HotelDetails.Models.Hotel", b =>
                 {
@@ -95,15 +76,6 @@ namespace HotelDetails.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("HotelDetails.Models.Amenity", b =>
-                {
-                    b.HasOne("HotelDetails.Models.Hotel", null)
-                        .WithMany("Amenities")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HotelDetails.Models.Room", b =>
                 {
                     b.HasOne("HotelDetails.Models.Hotel", null)
@@ -115,8 +87,6 @@ namespace HotelDetails.Migrations
 
             modelBuilder.Entity("HotelDetails.Models.Hotel", b =>
                 {
-                    b.Navigation("Amenities");
-
                     b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618

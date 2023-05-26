@@ -1,5 +1,6 @@
 ﻿using HotelDetails.Interfaces;
 using HotelDetails.Models;
+using HotelDetails.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace HotelDetails.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IRepo<int, Hotel> _repo;
+        private readonly HotelService _service;
 
-        public HotelController(IRepo<int,Hotel> repo)
+        public HotelController(IRepo<int,Hotel> repo,HotelService service)
         {
             _repo = repo;
+            _service = service;
         }
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
@@ -62,6 +65,42 @@ namespace HotelDetails.Controllers
                 BadRequest("Unable to update hotel details");
             }
             return Ok(hotel);
+        }
+        [HttpGet("GetByLocation")]
+        [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ICollection<Hotel>> GetByLocation(string location)
+        {
+            var hotels = _service.GetHotelsByLocation(location);
+            if (hotels == null)
+            {
+                return NotFound("No hotels are available at present moment");
+            }
+            return Ok(hotels);
+        }
+        [HttpGet("GetByPriceRange")]
+        [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ICollection<Hotel>> GetByPriceRange(int min,int max)
+        {
+            var hotels = _service.GetHotelsByPrice(min,max);
+            if (hotels == null)
+            {
+                return NotFound("No hotels are available at present moment");
+            }
+            return Ok(hotels);
+        }
+        [HttpGet("GetByAmenities")]
+        [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ICollection<Hotel>> GetByAmenities(string amenity)
+        {
+            var hotels = _service.GetHotelsByAmenity(amenity).ToList();
+            if (hotels == null)
+            {
+                return NotFound("No hotels are available at present moment");
+            }
+            return Ok(hotels);
         }
     }
 }

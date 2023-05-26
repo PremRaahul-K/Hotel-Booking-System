@@ -19,7 +19,9 @@ namespace HotelDetails
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<HotelsContext>(ops => ops.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
             builder.Services.AddScoped<IRepo<int, Hotel>, HotelRepo>();
-
+            builder.Services.AddScoped<IRepo<int, Room>, RoomRepo>();
+            builder.Services.AddScoped<IRepo<int, Amenity>, AmenityRepo>();
+            builder.Services.AddScoped<HotelService>();
 
             var app = builder.Build();
 

@@ -11,8 +11,9 @@ namespace HotelDetails.Models
         [Required(ErrorMessage = "Location cant be empty")]
         public string? Location { get; set; }
         [Required(ErrorMessage = "Price cannot be empty")]
-        [Range(1, 10000, ErrorMessage = "Inavlid price range. Price has to be between 1 and 10000")]
+        [Range(1, 5, ErrorMessage = "Inavlid price range. Price has to be between 1 and 5")]
         public float Rating { get; set; }
+        public ICollection<Amenity>? Amenities { get; set; }
         public ICollection<Room>? Rooms { get; set; }
     }
 }

@@ -48,7 +48,7 @@ namespace HotelDetails.Services
 
         public ICollection<Hotel> GetAll()
         {
-            var hotels = _context.Hotels.Include(h=>h.Rooms).ToList();
+            var hotels = _context.Hotels.Include(h=>h.Rooms).Include(h=>h.Amenities).ToList();
             if (hotels.Count>0)
             {
                 return hotels;
