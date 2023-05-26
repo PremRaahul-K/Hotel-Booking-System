@@ -6,6 +6,7 @@
         public int RoomNumber { get; set; }
         public bool AvailabilityStatus { get; set; }
         public string? RoomType { get; set; }
+        public float Price { get; set; }
         public int HotelId { get; set; }
     }
 }

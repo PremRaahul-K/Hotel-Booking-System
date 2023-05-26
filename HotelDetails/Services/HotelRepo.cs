@@ -63,10 +63,10 @@ namespace HotelDetails.Services
             {
                 hotel.Id = item.Id;
                 hotel.HotelName = item.HotelName;
-                hotel.Price = item.Price;
                 hotel.Location = item.Location;
                 hotel.Rooms = item.Rooms;
                 _context.SaveChanges();
+                return hotel;
             }
             return null;
         }
