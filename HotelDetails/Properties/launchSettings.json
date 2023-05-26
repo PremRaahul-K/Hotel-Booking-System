@@ -4,12 +4,12 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:58993",
+      "applicationUrl": "http://localhost:64057",
       "sslPort": 0
     }
   },
   "profiles": {
-    "Hotel": {
+    "HotelDetails": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
