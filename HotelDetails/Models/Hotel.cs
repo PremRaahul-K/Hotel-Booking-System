@@ -14,6 +14,6 @@ namespace HotelDetails.Models
         [Range(1, 10000, ErrorMessage = "Inavlid price range. Price has to be between 1 and 10000")]
         public float Price { get; set; }
         public float Rating { get; set; }
-        List<string>? Amenities { get; set; }
+        public ICollection<Room>? Rooms { get; set; }
     }
 }

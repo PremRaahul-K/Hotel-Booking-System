@@ -1,3 +1,8 @@
+using HotelDetails.Interfaces;
+using HotelDetails.Models;
+using HotelDetails.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace HotelDetails
 {
     public class Program
@@ -12,6 +17,9 @@ namespace HotelDetails
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<HotelsContext>(ops => ops.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+            builder.Services.AddScoped<IRepo<int, Hotel>, HotelRepo>();
+
 
             var app = builder.Build();
 
