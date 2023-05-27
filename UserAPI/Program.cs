@@ -1,13 +1,13 @@
-using HotelDetails.Interfaces;
-using HotelDetails.Models;
-using HotelDetails.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using UserAPI.Interfaces;
+using UserAPI.Models;
+using UserAPI.Services;
 
-namespace HotelDetails
+namespace UserAPI
 {
     public class Program
     {
@@ -46,11 +46,10 @@ namespace HotelDetails
                      }
                  });
             });
-            builder.Services.AddDbContext<HotelsContext>(ops => ops.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
-            builder.Services.AddScoped<IRepo<int, Hotel>, HotelRepo>();
-            builder.Services.AddScoped<IRepo<int, Room>, RoomRepo>();
-            builder.Services.AddScoped<IRepo<int, Amenity>, AmenityRepo>();
-            builder.Services.AddScoped<HotelService>();
+            builder.Services.AddDbContext<UserContext>(ops => ops.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+            builder.Services.AddScoped<IBaseRepo<string, User>, UserRepo>();
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<ITokenGenerate, TokenService>();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -72,6 +71,9 @@ namespace HotelDetails
                 app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
