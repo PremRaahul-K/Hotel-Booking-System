@@ -1,6 +1,7 @@
 ﻿using HotelDetails.Interfaces;
 using HotelDetails.Models;
 using HotelDetails.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,12 +24,15 @@ namespace HotelDetails.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Hotel>> GetAll()
         {
-            var hotels = _repo.GetAll().ToList();
-            if (hotels==null)
+            try
+            {
+                var hotels = _repo.GetAll().ToList();
+                return Ok(hotels);
+            }
+            catch (ArgumentNullException ane)
             {
                 return NotFound("No hotels are available at present moment");
             }
-            return Ok(hotels);
         }
         [HttpPost]
         [ProducesResponseType(typeof(Hotel), StatusCodes.Status201Created)]
@@ -83,24 +87,32 @@ namespace HotelDetails.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Hotel>> GetByPriceRange(int min,int max)
         {
-            var hotels = _service.GetHotelsByPrice(min,max);
-            if (hotels == null)
+            try
+            {
+                var hotels = _service.GetHotelsByPrice(min, max).ToList();
+                return Ok(hotels);
+            }
+            catch (ArgumentNullException ane)
             {
                 return NotFound("No hotels are available at present moment");
             }
-            return Ok(hotels);
         }
         [HttpGet("GetByAmenities")]
         [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Hotel>> GetByAmenities(string amenity)
         {
-            var hotels = _service.GetHotelsByAmenity(amenity).ToList();
-            if (hotels == null)
+            try
+            {
+                var hotels = _service.GetHotelsByAmenity(amenity).ToList();
+                return Ok(hotels);
+
+            }
+            catch (ArgumentNullException ane)
             {
                 return NotFound("No hotels are available at present moment");
+
             }
-            return Ok(hotels);
         }
     }
 }

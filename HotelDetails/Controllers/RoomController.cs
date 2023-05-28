@@ -1,5 +1,6 @@
 ﻿using HotelDetails.Interfaces;
 using HotelDetails.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace HotelDetails.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoomController : ControllerBase
     {
         private readonly IRepo<int, Room> _repo;
@@ -20,12 +22,15 @@ namespace HotelDetails.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Room>> GetAll()
         {
-            var rooms = _repo.GetAll().ToList();
-            if (rooms == null)
+            try
+            {
+                var rooms = _repo.GetAll().ToList();
+                return Ok(rooms);
+            }
+            catch (ArgumentNullException ane)
             {
                 return NotFound("No rooms are available at present moment");
             }
-            return Ok(rooms);
         }
         [HttpPost]
         [ProducesResponseType(typeof(Room), StatusCodes.Status201Created)]

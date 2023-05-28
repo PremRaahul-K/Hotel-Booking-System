@@ -15,60 +15,80 @@ namespace HotelDetails.Services
         }
         public Hotel Add(Hotel item)
         {
-            if(_context.Hotels.Contains(item))
+            try
+            {
+                _context.Hotels.Add(item);
+                _context.SaveChanges();
+                return item;
+            }
+            catch (DbUpdateException ue)
             {
                 return null;
             }
-            _context.Hotels.Add(item);
-            _context.SaveChanges();
-            return item;
         }
 
         public Hotel Delete(int key)
         {
-            var hotel = Get(key);
-            if(hotel == null)
+            try
+            {
+                var hotel = Get(key);
+                _context.Remove(hotel);
+                _context.SaveChanges();
+                return hotel;
+            }
+            catch (DbUpdateException ue)
             {
                 return null;
             }
-            _context.Remove(hotel);
-            _context.SaveChanges();
-            return hotel;
+            catch(ArgumentNullException ane)
+            {
+                return null;
+            }
         }
 
         public Hotel Get(int key)
         {
-            var hotel = _context.Hotels.SingleOrDefault(h => h.Id == key);
-            if(hotel != null)
+            try
             {
+                var hotel = _context.Hotels.Include(h => h.Rooms).Include(h => h.Amenities).SingleOrDefault(h => h.Id == key);
                 return hotel;
             }
-            return null;
+            catch (ArgumentNullException ane)
+            {
+                return null;
+            }
         }
 
         public ICollection<Hotel> GetAll()
         {
-            var hotels = _context.Hotels.Include(h=>h.Rooms).Include(h=>h.Amenities).ToList();
-            if (hotels.Count>0)
+            try
             {
+                var hotels = _context.Hotels.Include(h => h.Rooms).Include(h => h.Amenities).ToList();
                 return hotels;
             }
-            return null; 
+            catch (ArgumentNullException ane)
+            {
+                return null;
+            }
         }
 
         public Hotel Update(Hotel item)
         {
-            var hotel = Get(item.Id);
-            if (hotel != null)
+            try
             {
+                var hotel = Get(item.Id);
                 hotel.Id = item.Id;
                 hotel.HotelName = item.HotelName;
                 hotel.Location = item.Location;
                 hotel.Rooms = item.Rooms;
                 _context.SaveChanges();
                 return hotel;
+
             }
-            return null;
+            catch (DbUpdateException ue)
+            {
+                return null;
+            }
         }
     }
 }

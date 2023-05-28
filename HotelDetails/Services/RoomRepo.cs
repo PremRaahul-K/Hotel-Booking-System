@@ -15,13 +15,17 @@ namespace HotelDetails.Services
         }
         public Room Add(Room item)
         {
-            if (_context.Rooms.Contains(item))
+            try
+            {
+                _context.Rooms.Add(item);
+                _context.SaveChanges();
+                return item;
+            }
+            catch (DbUpdateException ue) 
             {
                 return null;
             }
-            _context.Rooms.Add(item);
-            _context.SaveChanges();
-            return item;
+            
         }
 
         public Room Delete(int key)

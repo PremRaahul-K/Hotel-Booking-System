@@ -1,5 +1,6 @@
 ﻿using HotelDetails.Interfaces;
 using HotelDetails.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace HotelDetails.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AmenityController : ControllerBase
     {
         private readonly IRepo<int, Amenity> _repo;

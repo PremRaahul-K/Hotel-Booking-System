@@ -17,46 +17,67 @@ namespace HotelDetails.Services
         }
        public ICollection<Hotel> GetHotelsByLocation(string location)
         {
-            var hotels = _hotelRepo.GetAll().Where(h => h.Location == location).ToList();
-            if (hotels!=null)
+            try
             {
+                var hotels = _hotelRepo.GetAll().Where(h => h.Location == location).ToList();
                 return hotels;
             }
-            return null;
+            catch (ArgumentNullException ane)
+            {
+                return null;
+            }
+            
         }
         public ICollection<Hotel> GetHotelsByPrice(int min,int max)
         {
-            var rooms = _roomRepo.GetAll().Where(r => r.Price >= min && r.Price <= max).ToList();
-            List<Hotel> hotels = new List<Hotel>();
-            for (int i = 0; i < rooms.Count; i++)
+            try
             {
-                if (rooms[i].Price>=min && rooms[i].Price<=max)
+                var rooms = _roomRepo.GetAll().Where(r => r.Price >= min && r.Price <= max).ToList();
+                List<Hotel> hotels = new List<Hotel>();
+                SortedSet<int> hotelId = new SortedSet<int>();
+                for (int i = 0; i < rooms.Count; i++)
                 {
-                    hotels.Add(_hotelRepo.Get(rooms[i].HotelId));
+                    if (rooms[i].Price >= min && rooms[i].Price <= max)
+                    {
+                        hotelId.Add(rooms[i].HotelId);
+                    }
                 }
-            }
-            if (hotels != null)
-            {
+                foreach (var item in hotelId)
+                {
+                    hotels.Add(_hotelRepo.Get(item));
+                }
                 return hotels;
             }
-            return null;
+            catch (ArgumentNullException ane)
+            {
+
+                return null;
+            }
         }
         public ICollection<Hotel> GetHotelsByAmenity(string amenity)
         {
-            var amenities = _amenityRepo.GetAll().Where(a=>a.AmenityName==amenity).ToList();
-            List<Hotel> hotels = new List<Hotel>();
-            for (int i = 0; i < amenities.Count; i++)
+            try
             {
-                if (amenities[i].AmenityName == amenity)
+                var amenities = _amenityRepo.GetAll().Where(a => a.AmenityName == amenity).ToList();
+                List<Hotel> hotels = new List<Hotel>();
+                SortedSet<int> hotelId = new SortedSet<int>();
+                for (int i = 0; i < amenities.Count; i++)
                 {
-                    hotels.Add(_hotelRepo.Get(amenities[i].HotelId));
+                    if (amenities[i].AmenityName.ToLower() == amenity.ToLower())
+                    {
+                        hotelId.Add(amenities[i].HotelId);
+                    }
                 }
-            }
-            if (hotels != null)
-            {
+                foreach (var item in hotelId)
+                {
+                    hotels.Add(_hotelRepo.Get(item));
+                }
                 return hotels;
             }
-            return null;
+            catch (ArgumentNullException ane)
+            {
+                return null;
+            }
         }
     }
 }
