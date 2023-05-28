@@ -47,6 +47,7 @@ namespace BookingAPI
             });
             builder.Services.AddDbContext<BookingContext>(ops => ops.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
             builder.Services.AddScoped<IRepo<int, Booking>, BookingRepo>();
+            builder.Services.AddScoped<BookingService>();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

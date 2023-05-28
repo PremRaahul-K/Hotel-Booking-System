@@ -1,5 +1,6 @@
 ﻿using BookingAPI.Interfaces;
 using BookingAPI.Models;
+using BookingAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,14 @@ namespace BookingAPI.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IRepo<int, Booking> _repo;
+        private readonly BookingService _bookingService;
 
-        public BookingController(IRepo<int, Booking> repo)
+        public BookingController(IRepo<int, Booking> repo,BookingService bookingService)
         {
             _repo = repo;
+            _bookingService = bookingService;
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<Booking>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -29,7 +33,7 @@ namespace BookingAPI.Controllers
             }
             return Ok(bookings);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpPost]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +71,19 @@ namespace BookingAPI.Controllers
                 BadRequest("Unable to update booking details");
             }
             return Ok(booking);
+        }
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ICollection<Booking>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ICollection<Booking>> GetBookingsByUserName(string userName)
+        {
+            var bookings = _bookingService.GetBookingsByUsername(userName);
+            if (bookings == null)
+            {
+                return NotFound("No bookings are available at present moment");
+            }
+            return Ok(bookings);
         }
     }
 }
