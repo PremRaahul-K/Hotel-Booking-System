@@ -33,6 +33,7 @@ namespace UserAPI.Services
                 }
                 user = new UserDTO();
                 user.Username = userData.Username;
+                user.Role = userData.Role;
                 user.Token = _tokenService.GenerateToken(user);
                 return user;
             }
@@ -49,6 +50,7 @@ namespace UserAPI.Services
             {
                 user = new UserDTO();
                 user.Username = resultUser.Username;
+                user.Role = resultUser.Role;
                 user.Token = _tokenService.GenerateToken(user);
             }
             return user;

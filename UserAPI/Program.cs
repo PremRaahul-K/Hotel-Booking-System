@@ -69,12 +69,12 @@ namespace UserAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseAuthentication();
+                app.UseAuthorization();
             }
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
 
 
             app.MapControllers();

@@ -20,7 +20,6 @@ namespace BookingAPI.Services
                 {
                     return null;
                 }
-
                 _context.Bookings.Add(item);
                 _context.SaveChanges();
                 return item;

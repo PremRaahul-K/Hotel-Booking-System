@@ -19,6 +19,7 @@ namespace HotelDetails.Controllers
             _repo = repo;
             _service = service;
         }
+
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,6 +35,7 @@ namespace HotelDetails.Controllers
                 return NotFound("No hotels are available at present moment");
             }
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(typeof(Hotel), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,6 +60,7 @@ namespace HotelDetails.Controllers
             }
             return BadRequest("Unable to delete the hotel");
         }
+
         [HttpPut]
         [ProducesResponseType(typeof(Hotel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

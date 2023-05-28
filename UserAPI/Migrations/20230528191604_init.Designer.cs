@@ -12,7 +12,7 @@ using UserAPI.Models;
 namespace UserAPI.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20230526132328_init")]
+    [Migration("20230528191604_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,10 @@ namespace UserAPI.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Username");
