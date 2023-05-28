@@ -16,7 +16,7 @@ namespace BookingAPI.Services
         {
             try
             {
-                if(item.checlOutDate<item.checkInDate)
+                if(item.checKOutDate<item.checkInDate || ValidateBookings(item))
                 {
                     return null;
                 }
@@ -25,7 +25,7 @@ namespace BookingAPI.Services
                 _context.SaveChanges();
                 return item;
             }
-            catch (DbUpdateException ue)
+            catch (InvalidOperationException ioe)
             {
                 return null;
             }
@@ -83,7 +83,7 @@ namespace BookingAPI.Services
                 var booking = Get(item.Id);
                 booking.Id = item.Id;
                 booking.checkInDate = item.checkInDate;
-                booking.checlOutDate = item.checlOutDate;
+                booking.checKOutDate = item.checKOutDate;
                 booking.hotelID = item.hotelID;
                 booking.userName = item.userName;
                 booking.roomNumber = item.roomNumber;
@@ -98,6 +98,25 @@ namespace BookingAPI.Services
             {
                 return null;
             }
+        }
+        public bool ValidateBookings(Booking booking)
+        {
+            var bookings = _context.Bookings.ToList();
+            if (bookings.Count>0)
+            {
+                var resultBooking = bookings.Where(b => b.hotelID == booking.hotelID && b.roomNumber == booking.roomNumber).ToList();
+                if (resultBooking.Count>0)
+                {
+                    foreach (var item in resultBooking)
+                    {
+                        if ((booking.checkInDate >= item.checkInDate && booking.checkInDate <= item.checKOutDate) ||(booking.checKOutDate>=item.checkInDate && booking.checKOutDate<=item.checKOutDate))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }

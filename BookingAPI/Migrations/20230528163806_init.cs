@@ -20,7 +20,7 @@ namespace BookingAPI.Migrations
                     roomNumber = table.Column<int>(type: "int", nullable: false),
                     roomType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     checkInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    checlOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    checKOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     bookingStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

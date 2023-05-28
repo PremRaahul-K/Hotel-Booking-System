@@ -37,10 +37,10 @@ namespace BookingAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("checkInDate")
+                    b.Property<DateTime>("checKOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("checlOutDate")
+                    b.Property<DateTime>("checkInDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("hotelID")

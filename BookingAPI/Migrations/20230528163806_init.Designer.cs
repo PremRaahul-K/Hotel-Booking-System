@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingAPI.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20230528045149_init")]
+    [Migration("20230528163806_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,10 +39,10 @@ namespace BookingAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("checkInDate")
+                    b.Property<DateTime>("checKOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("checlOutDate")
+                    b.Property<DateTime>("checkInDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("hotelID")

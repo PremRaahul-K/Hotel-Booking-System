@@ -11,7 +11,7 @@ namespace BookingAPI.Models
         public int roomNumber { get; set; }
         public string roomType { get; set; }
         public DateTime checkInDate { get; set; }
-        public DateTime checlOutDate { get; set; }
+        public DateTime checKOutDate { get; set; }
         public float Price { get; set; }
         public string bookingStatus { get; set; }
     }
