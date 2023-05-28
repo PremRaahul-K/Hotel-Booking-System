@@ -8,7 +8,6 @@ namespace HotelDetails.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class RoomController : ControllerBase
     {
         private readonly IRepo<int, Room> _repo;
@@ -33,6 +32,7 @@ namespace HotelDetails.Controllers
             }
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Room> Add(Room room)
@@ -45,6 +45,7 @@ namespace HotelDetails.Controllers
             return Created("Home", room);
         }
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Room> Delete(int id)
@@ -57,6 +58,7 @@ namespace HotelDetails.Controllers
             return BadRequest("Unable to delete the room");
         }
         [HttpPut]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Room> Update(Room room)

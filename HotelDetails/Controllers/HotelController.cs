@@ -48,6 +48,7 @@ namespace HotelDetails.Controllers
             }
             return Created("Home", hotel);
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [ProducesResponseType(typeof(Hotel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -60,7 +61,7 @@ namespace HotelDetails.Controllers
             }
             return BadRequest("Unable to delete the hotel");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [ProducesResponseType(typeof(Hotel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -114,6 +115,23 @@ namespace HotelDetails.Controllers
             catch (ArgumentNullException ane)
             {
                 return NotFound("No hotels are available at present moment");
+
+            }
+        }
+        [HttpGet("GetByRoomAvailability")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<int> GetByRoomAvailability(int hotelID)
+        {
+            try
+            {
+                var availabilityCount = _service.GetRoomAvailabilityCount(hotelID);
+                return Ok(availabilityCount);
+
+            }
+            catch (ArgumentNullException ane)
+            {
+                return NotFound("No rooms are available at present moment");
 
             }
         }

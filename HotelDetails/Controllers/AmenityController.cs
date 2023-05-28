@@ -8,7 +8,6 @@ namespace HotelDetails.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AmenityController : ControllerBase
     {
         private readonly IRepo<int, Amenity> _repo;
@@ -29,6 +28,7 @@ namespace HotelDetails.Controllers
             }
             return Ok(amenities);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(typeof(Amenity), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,6 +41,7 @@ namespace HotelDetails.Controllers
             }
             return Created("Home", amenity);
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [ProducesResponseType(typeof(Amenity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,6 +54,7 @@ namespace HotelDetails.Controllers
             }
             return BadRequest("Unable to delete the amenity");
         }
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [ProducesResponseType(typeof(Amenity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

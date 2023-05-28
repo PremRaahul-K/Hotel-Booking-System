@@ -29,6 +29,7 @@ namespace BookingAPI.Controllers
             }
             return Ok(bookings);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,6 +42,7 @@ namespace BookingAPI.Controllers
             }
             return Created("Home", booking);
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,6 +55,7 @@ namespace BookingAPI.Controllers
             }
             return BadRequest("Unable to delete the booking");
         }
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

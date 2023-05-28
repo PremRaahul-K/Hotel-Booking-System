@@ -79,5 +79,21 @@ namespace HotelDetails.Services
                 return null;
             }
         }
+        public int GetRoomAvailabilityCount(int hotelid)
+        {
+            try
+            {
+                var rooms = _roomRepo.GetAll().Where(r => r.AvailabilityStatus == "Available" && r.HotelId==hotelid).ToList();
+                if (rooms.Count() > 0)
+                {
+                    return rooms.Count();
+                }
+                return 0;
+            }
+            catch (ArgumentNullException ane)
+            {
+                return 0;
+            }
+        }
     }
 }
