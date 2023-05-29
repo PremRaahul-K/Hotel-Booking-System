@@ -31,6 +31,21 @@ namespace HotelDetails.Controllers
                 return NotFound("No rooms are available at present moment");
             }
         }
+        [HttpGet("GetByRoomID")]
+        [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Room> GetByRoomID(int roomID)
+        {
+            try
+            {
+                var room = _repo.Get(roomID);
+                return Ok(room);
+            }
+            catch (ArgumentNullException ane)
+            {
+                return NotFound("No room is available at present moment");
+            }
+        }
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status201Created)]

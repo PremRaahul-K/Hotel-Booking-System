@@ -1,6 +1,7 @@
 ﻿using BookingAPI.Interfaces;
 using BookingAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace BookingAPI.Services
 {
@@ -26,6 +27,7 @@ namespace BookingAPI.Services
             }
             catch (InvalidOperationException ioe)
             {
+                Debug.WriteLine(ioe);
                 return null;
             }
         }
@@ -45,6 +47,7 @@ namespace BookingAPI.Services
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane.Message);
                 return null;
             }
         }
@@ -71,6 +74,7 @@ namespace BookingAPI.Services
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane.Message);
                 return null;
             }
         }
@@ -95,6 +99,7 @@ namespace BookingAPI.Services
             }
             catch (DbUpdateException ue)
             {
+                Debug.WriteLine(ue.Message);
                 return null;
             }
         }

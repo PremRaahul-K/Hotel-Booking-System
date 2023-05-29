@@ -1,6 +1,7 @@
 ﻿using HotelDetails.Interfaces;
 using HotelDetails.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq;
 
 namespace HotelDetails.Services
@@ -23,6 +24,7 @@ namespace HotelDetails.Services
             }
             catch (DbUpdateException ue) 
             {
+                Debug.WriteLine(ue.Message);
                 return null;
             }
             

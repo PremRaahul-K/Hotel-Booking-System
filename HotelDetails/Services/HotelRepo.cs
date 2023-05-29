@@ -2,6 +2,7 @@
 using HotelDetails.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 
 namespace HotelDetails.Services
 {
@@ -23,6 +24,7 @@ namespace HotelDetails.Services
             }
             catch (DbUpdateException ue)
             {
+                Debug.WriteLine(ue.Message);
                 return null;
             }
         }
@@ -38,6 +40,7 @@ namespace HotelDetails.Services
             }
             catch (DbUpdateException ue)
             {
+                Debug.WriteLine(ue.Message);
                 return null;
             }
             catch(ArgumentNullException ane)
@@ -55,6 +58,7 @@ namespace HotelDetails.Services
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane.Message);
                 return null;
             }
         }
@@ -68,6 +72,7 @@ namespace HotelDetails.Services
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane.Message);
                 return null;
             }
         }
@@ -87,6 +92,7 @@ namespace HotelDetails.Services
             }
             catch (DbUpdateException ue)
             {
+                Debug.WriteLine(ue.Message);
                 return null;
             }
         }

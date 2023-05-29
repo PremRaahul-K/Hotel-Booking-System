@@ -4,6 +4,7 @@ using HotelDetails.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace HotelDetails.Controllers
 {
@@ -32,6 +33,23 @@ namespace HotelDetails.Controllers
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane);
+                return NotFound("No hotels are available at present moment");
+            }
+        }
+        [HttpGet("GetByHotelID")]
+        [ProducesResponseType(typeof(Hotel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Hotel> GetByHotelID(int hotelId)
+        {
+            try
+            {
+                var hotel = _repo.Get(hotelId);
+                return Ok(hotel);
+            }
+            catch (ArgumentNullException ane)
+            {
+                Debug.WriteLine(ane);
                 return NotFound("No hotels are available at present moment");
             }
         }
@@ -79,12 +97,20 @@ namespace HotelDetails.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Hotel>> GetByLocation(string location)
         {
-            var hotels = _service.GetHotelsByLocation(location);
-            if (hotels == null)
+            try
             {
-                return NotFound("No hotels are available at present moment");
+                var hotels = _service.GetHotelsByLocation(location);
+                if (hotels == null)
+                {
+                    return NotFound("No hotels are available at present moment");
+                }
+                return Ok(hotels);
             }
-            return Ok(hotels);
+            catch (ArgumentNullException ane)
+            {
+                Debug.WriteLine(ane.Message);
+                return NotFound("No hotels are available at present moment");
+            };
         }
         [HttpGet("GetByPriceRange")]
         [ProducesResponseType(typeof(ICollection<Hotel>), StatusCodes.Status200OK)]
@@ -94,10 +120,15 @@ namespace HotelDetails.Controllers
             try
             {
                 var hotels = _service.GetHotelsByPrice(min, max).ToList();
+                if (hotels == null)
+                {
+                    return NotFound("No hotels are available at present moment");
+                }
                 return Ok(hotels);
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane);
                 return NotFound("No hotels are available at present moment");
             }
         }
@@ -109,13 +140,16 @@ namespace HotelDetails.Controllers
             try
             {
                 var hotels = _service.GetHotelsByAmenity(amenity).ToList();
-                return Ok(hotels);
-
+                if (hotels.Count>0)
+                {
+                    return Ok(hotels);
+                }
+                return NotFound("No hotels are available at present moment");
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane);
                 return NotFound("No hotels are available at present moment");
-
             }
         }
         [HttpGet("GetByRoomAvailability")]
@@ -131,8 +165,8 @@ namespace HotelDetails.Controllers
             }
             catch (ArgumentNullException ane)
             {
+                Debug.WriteLine(ane);
                 return NotFound("No rooms are available at present moment");
-
             }
         }
     }

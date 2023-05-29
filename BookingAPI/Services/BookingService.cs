@@ -16,7 +16,7 @@ namespace BookingAPI.Services
             try
             {
                 var bookings = _repo.GetAll().Where(b => b.userName == username).ToList();
-                if (bookings.Count() > 0)
+                if (bookings.Count()> 0)
                 {
                     return bookings;
                 }

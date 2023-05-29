@@ -32,6 +32,18 @@ namespace BookingAPI.Controllers
             }
             return Ok(bookings);
         }
+        [HttpGet("GetBookingByID")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Booking> GetBookingByID(int bookingID)
+        {
+            var booking = _repo.Get(bookingID);
+            if (booking == null)
+            {
+                return NotFound("No bookings is available at present moment");
+            }
+            return Ok(booking);
+        }
         [Authorize(Roles = "user")]
         [HttpPost]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
@@ -58,7 +70,7 @@ namespace BookingAPI.Controllers
             }
             return BadRequest("Unable to delete the booking");
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpPut]
         [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
