@@ -9,7 +9,6 @@ namespace BookingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BookingController : ControllerBase
     {
         private readonly IRepo<int, Booking> _repo;
@@ -73,7 +72,7 @@ namespace BookingAPI.Controllers
             return Ok(booking);
         }
         [Authorize(Roles = "user")]
-        [HttpGet]
+        [HttpGet("GetBookingsByUserName")]
         [ProducesResponseType(typeof(ICollection<Booking>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ICollection<Booking>> GetBookingsByUserName(string userName)
